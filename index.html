@@ -1,78 +1,35 @@
 <!DOCTYPE html>
-  <div class="contact">
-    <h2>Контакти</h2>
-    <p>📍 м. Дніпро, вул. Захисників 12</p>
-    <p>📞 +380 99 123 45 67</p>
-    <p>✉️ support@tactical-store.ua</p>
-  </div>
-</div>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Tactical Gear Store</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
 
-<div class="cart hidden" id="cart">
-  <h3>Ваш кошик</h3>
-  <div id="cartItems"></div>
-  <hr>
-  <button class="btn" onclick="checkout()">Оформити замовлення</button>
-</div>
+<header>
+  <h1>⚔️ Tactical Gear Store</h1>
+  <button onclick="openCart()">🛒 Корзина</button>
+</header>
 
+<div id="catalog"></div>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
 <script>
-const products = [
-  {name:"Бронежилет Plate Carrier", price:12000, cat:"armor"},
-  {name:"Керамічні плити Level IV", price:18000, cat:"armor"},
-  {name:"FAST шолом", price:9000, cat:"armor"},
-  {name:"Убакс Combat Shirt", price:2500, cat:"clothes"},
-  {name:"Тактичні штани", price:3000, cat:"clothes"},
-  {name:"Турнікет CAT", price:800, cat:"med"},
-  {name:"Рація Motorola", price:6000, cat:"electronics"},
-  {name:"FPV дрон", price:25000, cat:"electronics"},
-  {name:"Підсумок магазинів", price:600, cat:"weapons"}
-];
+  const catalog = document.getElementById("catalog");
 
-let cart = [];
-
-function renderProducts(){
-  let filter = document.getElementById("filter").value;
-  let container = document.getElementById("products");
-  container.innerHTML = "";
-
-  products.filter(p => filter=="all" || p.cat==filter).forEach((p,i)=>{
-    container.innerHTML += `
+  products.forEach(p => {
+    catalog.innerHTML += `
       <div class="card">
+        <img src="${p.image}">
         <h3>${p.name}</h3>
         <p>${p.price} грн</p>
-        <button class="btn" onclick="addToCart(${i})">Додати</button>
+        <button onclick="addToCart(${p.id})">Додати</button>
       </div>
     `;
   });
-}
-
-function addToCart(i){
-  cart.push(products[i]);
-  document.getElementById("cartCount").innerText = cart.length;
-  renderCart();
-}
-
-function renderCart(){
-  let c = document.getElementById("cartItems");
-  c.innerHTML = "";
-  cart.forEach(p=>{
-    c.innerHTML += `<p>${p.name} - ${p.price} грн</p>`;
-  });
-}
-
-function toggleCart(){
-  document.getElementById("cart").classList.toggle("hidden");
-}
-
-function checkout(){
-  alert("Замовлення оформлено (демо режим)");
-  cart = [];
-  renderCart();
-  document.getElementById("cartCount").innerText = 0;
-}
-
-renderProducts();
 </script>
 
 </body>
 </html>
-
