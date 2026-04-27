@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="uk">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,43 +10,50 @@
 <body>
 
 <header>
-<div><b>TACTICAL UA STORE</b></div>
-<div>Каталог 300+ позицій</div>
+<div class="logo">TACTICAL UA STORE</div>
+<div class="sub">Каталог 300+ військового спорядження</div>
 </header>
 
-<div class="container">
+<div class="layout">
 
+<!-- SIDEBAR -->
 <div class="sidebar">
 <h3>Фільтри</h3>
 
 <select id="category">
-<option value="all">Всі</option>
+<option value="all">Всі категорії</option>
 <option value="armor">Захист</option>
 <option value="clothes">Одяг</option>
 <option value="gear">Спорядження</option>
 <option value="electronics">Електроніка</option>
+<option value="medical">Медицина</option>
+<option value="drones">БПЛА</option>
 </select>
 
 <input id="search" placeholder="Пошук..." />
 
-<button class="btn" onclick="render()">Застосувати</button>
+<button onclick="render()">Застосувати</button>
+
+<div class="hint">
+MIL-SIM / Tactical Equipment
+</div>
 </div>
 
+<!-- MAIN -->
 <div class="main">
 <div id="list" class="grid"></div>
 </div>
 
-</div>
-
+<!-- CART -->
 <div class="cart">
-<b>Кошик</b>
+<h3>Кошик</h3>
 <div id="cart"></div>
 </div>
 
-<script>
-const categories=["armor","clothes","gear","electronics"];
-let products=[];
+</div>
 
+<script>
+// ===== DATA =====
 const names = [
 "Plate Carrier LBT 6094",
 "FAST Ballistic Helmet",
@@ -76,51 +82,57 @@ const categories = ["armor","clothes","gear","electronics","medical","drones"];
 let products = [];
 
 for(let i=1;i<=300;i++){
+let base = names[i % names.length];
 
-    let base = names[i % names.length];
-
-    products.push({
-        id: i,
-        name: base + " Mk." + (Math.floor(Math.random()*5)+1),
-        cat: categories[i % categories.length],
-        price: Math.floor(Math.random()*20000 + 500)
-    });
-
+products.push({
+id:i,
+name: base + " Mk." + (Math.floor(Math.random()*5)+1),
+cat: categories[i % categories.length],
+price: Math.floor(Math.random()*20000 + 500)
+});
 }
 
-let cart=[];
+let cart = [];
 
+// ===== CART =====
 function add(id){
-let p=products.find(x=>x.id===id);
-cart.push(p);
+cart.push(products.find(p=>p.id===id));
 updateCart();
 }
 
 function updateCart(){
 document.getElementById("cart").innerHTML =
-cart.map(c=>`<div>${c.name} - ${c.price}₴</div>`).join("");
-}
-
-function render(){
-let cat=document.getElementById("category").value;
-let search=document.getElementById("search").value.toLowerCase();
-
-let html=products
-.filter(p=> (cat=="all"||p.cat==cat) && p.name.toLowerCase().includes(search))
-.map(p=>`
-<div class='card'>
-<div><b>${p.name}</b></div>
-<div class='small'>[${p.cat.toUpperCase()}]</div>
-<div>${p.price} грн</div>
-<button class='btn' onclick='add(${p.id})'>Додати</button>
+cart.map(c=>`
+<div class="cart-item">
+${c.name}<br>
+<span>${c.price} грн</span>
 </div>
 `).join("");
+}
 
-document.getElementById("list").innerHTML=html;
+// ===== RENDER =====
+function render(){
+let cat = document.getElementById("category").value;
+let search = document.getElementById("search").value.toLowerCase();
+
+document.getElementById("list").innerHTML =
+products
+.filter(p =>
+(cat==="all" || p.cat===cat) &&
+p.name.toLowerCase().includes(search)
+)
+.map(p=>`
+<div class="card">
+<div class="title">${p.name}</div>
+<div class="tag">[${p.cat.toUpperCase()}]</div>
+<div class="price">${p.price} грн</div>
+<button onclick="add(${p.id})">Додати</button>
+</div>
+`).join("");
 }
 
 render();
 </script>
 
 </body>
-<div class="bg-overlay"></div>
+</html>
