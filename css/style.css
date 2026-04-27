@@ -1,32 +1,133 @@
-body {
-  margin: 0;
-  font-family: Arial;
-  background: #0f0f0f;
-  color: white;
+:root{
+  --bg:#0a0f14;
+  --panel:#111a24;
+  --panel2:#0e141c;
+  --accent:#4bff88;
+  --text:#e6edf3;
+  --muted:#93a4b3;
+  --border:#1c2a3a;
 }
 
-header {
-  background: #1a1a1a;
-  padding: 15px;
-  display: flex;
-  justify-content: space-between;
+body{
+  margin:0;
+  background:radial-gradient(circle at top,#0f1722,#070a0f);
+  color:var(--text);
+  font-family:Arial, sans-serif;
 }
 
-#catalog {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 15px;
-  padding: 20px;
+/* HEADER */
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 20px;
+  background:rgba(17,26,36,0.9);
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  backdrop-filter:blur(10px);
 }
 
-.card {
-  background: #1e1e1e;
-  padding: 10px;
-  border-radius: 10px;
-  text-align: center;
+header b{
+  color:var(--accent);
+  letter-spacing:2px;
 }
 
-.card img {
-  width: 100%;
-  border-radius: 10px;
+/* LAYOUT */
+.container{
+  display:flex;
+}
+
+/* SIDEBAR */
+.sidebar{
+  width:260px;
+  background:var(--panel);
+  padding:15px;
+  border-right:1px solid var(--border);
+  min-height:100vh;
+}
+
+.sidebar h3{
+  color:var(--accent);
+}
+
+input, select{
+  width:100%;
+  padding:10px;
+  margin-top:8px;
+  background:var(--panel2);
+  border:1px solid var(--border);
+  color:var(--text);
+  border-radius:6px;
+}
+
+/* BUTTONS */
+button{
+  background:var(--accent);
+  border:none;
+  padding:10px;
+  margin-top:10px;
+  cursor:pointer;
+  font-weight:bold;
+  border-radius:6px;
+  color:#000;
+}
+
+/* MAIN GRID */
+.main{
+  flex:1;
+  padding:20px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:12px;
+}
+
+/* CARDS */
+.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:12px;
+  transition:0.2s;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+  border-color:var(--accent);
+}
+
+/* TEXT */
+.small{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.price{
+  color:var(--accent);
+  font-weight:bold;
+}
+
+/* CART */
+.cart{
+  position:fixed;
+  right:15px;
+  bottom:15px;
+  width:260px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  padding:10px;
+  border-radius:10px;
+  max-height:300px;
+  overflow:auto;
+}
+
+/* BADGE */
+.badge{
+  background:#ff3b3b;
+  padding:3px 8px;
+  border-radius:6px;
+  font-size:12px;
 }
