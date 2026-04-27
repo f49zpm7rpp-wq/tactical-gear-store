@@ -2,88 +2,131 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Tactical UA Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tactical UA Store | Все для перемоги</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
+<div class="top-bar">
+    <div class="languages">
+        <span onclick="alert('Мова змінена')">UA</span>
+        <span onclick="alert('Language changed')">EN</span>
+        <span onclick="alert('Язык изменен')">RU</span>
+    </div>
+    <div class="auth">
+        <a href="#" onclick="alert('Перехід до входу')"><i class="fas fa-user"></i> Вхід / Реєстрація</a>
+    </div>
+</div>
+
 <header>
-    <div class="logo">TACTICAL UA STORE</div>
-    <div class="sub">300+ одиниць спорядження</div>
+    <h1>TACTICAL UA STORE</h1>
+    <p class="slogan">ВСЕ ДЛЯ ПЕРЕМОГИ</p>
+    <nav>
+        <button onclick="showPage('shop')"><i class="fas fa-th"></i> Каталог</button>
+        <button onclick="showPage('cart')" class="cart-btn">
+            <i class="fas fa-shopping-cart"></i> Кошик (<span id="cart-count">0</span>)
+        </button>
+    </nav>
 </header>
 
-<div class="layout">
-    <aside class="sidebar">
-        <h3>Фільтри</h3>
-        <select id="category">
-            <option value="all">Всі категорії</option>
-            <option value="armor">Захист</option>
-            <option value="clothes">Одяг</option>
-            <option value="gear">Спорядження</option>
-            <option value="electronics">Електроніка</option>
-            <option value="medical">Медицина</option>
-            <option value="drones">БПЛА</option>
-        </select>
-        <input id="search" placeholder="Пошук за назвою..." />
-        <button class="btn-main" onclick="render()">Показати результати</button>
-    </aside>
-
-    <main class="main">
-        <div id="list" class="grid"></div>
-    </main>
-
-    <aside class="cart">
-        <h3>Кошик</h3>
-        <div id="cart-items"></div>
-        <div class="total-box">
-            <strong>Разом:</strong> <span id="total-price">0</span> грн
+<div class="container">
+    <div id="shop-page">
+        <div class="filters">
+            <input type="text" id="search" placeholder="Пошук спорядження..." oninput="render()">
+            <select id="category" onchange="render()">
+                <option value="all">Всі категорії</option>
+                <option value="armor">Захист</option>
+                <option value="gear">Спорядження</option>
+                <option value="electronics">Електроніка</option>
+            </select>
         </div>
-    </aside>
+        <div id="list" class="grid"></div>
+    </div>
+
+    <div id="cart-page" style="display: none;">
+        <h2>Ваше замовлення</h2>
+        <div id="full-cart-list"></div>
+        <div class="cart-summary">
+            <h3>Разом: <span id="total-price">0</span> грн</h3>
+            <button class="order-now">Оформити замовлення</button>
+            <button onclick="showPage('shop')" class="back-btn">Повернутися до покупок</button>
+        </div>
+    </div>
 </div>
 
 <script>
-// Дані
-const names = ["Plate Carrier LBT", "FAST Helmet", "CAT Tourniquet", "Mavic 3", "PVS-14", "Softshell Jacket", "Combat Boots", "Tactical Gloves"];
-const categories = ["armor","clothes","gear","electronics","medical","drones"];
-let products = [];
-for(let i=1;i<=300;i++){
-    products.push({
-        id:i,
-        name: names[i % names.length] + " Mk." + (i%5+1),
-        cat: categories[i % categories.length],
-        price: Math.floor(Math.random()*15000 + 500)
-    });
-}
+// Дані з реальними фото (для прикладу)
+const products = [
+    { id: 1, cat: 'armor', price: 12500, name: "Плитоноска Crye Precision JPC 2.0", img: "https://images.unsplash.com/photo-1595078475328-1ab05d0a6a0e?auto=format&fit=crop&q=80&w=400" },
+    { id: 2, cat: 'gear', price: 4200, name: "Рюкзак тактичний 45L Multicam", img: "https://images.unsplash.com/photo-1547949003-9792a18a2601?auto=format&fit=crop&q=80&w=400" },
+    { id: 3, cat: 'electronics', price: 85000, name: "Тепловізор AGM Taipan TM15", img: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=400" },
+    { id: 4, cat: 'armor', price: 7800, name: "Шолом FAST Ballistic High Cut", img: "https://images.unsplash.com/photo-1611911813524-8e9f42835560?auto=format&fit=crop&q=80&w=400" },
+    { id: 5, cat: 'gear', price: 1500, name: "Активні навушники Howard Leight", img: "https://images.unsplash.com/photo-1589531102604-037042530188?auto=format&fit=crop&q=80&w=400" },
+    { id: 6, cat: 'electronics', price: 145000, name: "DJI Mavic 3 Enterprise T", img: "https://images.unsplash.com/photo-1508614589041-895b839676d6?auto=format&fit=crop&q=80&w=400" }
+];
 
 let cart = [];
-function add(id){
-    cart.push(products.find(p=>p.id===id));
-    updateCart();
+
+function showPage(page) {
+    document.getElementById('shop-page').style.display = page === 'shop' ? 'block' : 'none';
+    document.getElementById('cart-page').style.display = page === 'cart' ? 'block' : 'none';
+    if(page === 'cart') renderCart();
 }
-function updateCart(){
-    document.getElementById("cart-items").innerHTML = cart.map(c=>`
-        <div class="cart-item">
-            <span>${c.name}</span>
-            <b>${c.price} грн</b>
-        </div>
-    `).join("");
-    document.getElementById("total-price").innerText = cart.reduce((s,i)=>s+i.price,0).toLocaleString();
+
+function add(id) {
+    const item = products.find(p => p.id === id);
+    cart.push(item);
+    document.getElementById('cart-count').innerText = cart.length;
+    alert(item.name + " додано в кошик!");
 }
-function render(){
-    let cat = document.getElementById("category").value;
-    let search = document.getElementById("search").value.toLowerCase();
+
+function render() {
+    const cat = document.getElementById("category").value;
+    const search = document.getElementById("search").value.toLowerCase();
+    
     document.getElementById("list").innerHTML = products
-        .filter(p => (cat==="all" || p.cat===cat) && p.name.toLowerCase().includes(search))
-        .map(p=>`
+        .filter(p => (cat === "all" || p.cat === cat) && p.name.toLowerCase().includes(search))
+        .map(p => `
             <div class="card">
-                <div class="tag">${p.cat.toUpperCase()}</div>
-                <div class="title">${p.name}</div>
-                <div class="price">${p.price.toLocaleString()} грн</div>
-                <button onclick="add(${p.id})">У кошик</button>
+                <div class="card-img" style="background-image: url('${p.img}')"></div>
+                <div class="card-info">
+                    <div class="tag">${p.cat.toUpperCase()}</div>
+                    <h3>${p.name}</h3>
+                    <div class="price">${p.price.toLocaleString()} грн</div>
+                    <button onclick="add(${p.id})"><i class="fas fa-cart-plus"></i> Купити</button>
+                </div>
             </div>
         `).join("");
 }
+
+function renderCart() {
+    const list = document.getElementById("full-cart-list");
+    if(cart.length === 0) {
+        list.innerHTML = "<p>Кошик порожній</p>";
+    } else {
+        list.innerHTML = cart.map((c, index) => `
+            <div class="cart-page-item">
+                <img src="${c.img}" width="80">
+                <div>
+                    <h4>${c.name}</h4>
+                    <p>${c.price} грн</p>
+                </div>
+                <button onclick="removeFromCart(${index})"><i class="fas fa-trash"></i></button>
+            </div>
+        `).join("");
+    }
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    document.getElementById("total-price").innerText = total.toLocaleString();
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    document.getElementById('cart-count').innerText = cart.length;
+    renderCart();
+}
+
 render();
 </script>
 </body>
