@@ -48,13 +48,44 @@
 const categories=["armor","clothes","gear","electronics"];
 let products=[];
 
+const names = [
+"Plate Carrier LBT 6094",
+"FAST Ballistic Helmet",
+"CAT Tourniquet Gen7",
+"Mavic 3 Tactical Drone",
+"PVS-14 Night Vision",
+"AK-74 Magazine 5.45",
+"Softshell Combat Jacket",
+"IFAK Medical Kit",
+"Ballistic Plates Level IV",
+"ELRS Radio Controller",
+"Combat Boots Gore-Tex",
+"Tactical Gloves Mechanix",
+"FPV Drone 7 inch",
+"Ranger Green Backpack 45L",
+"Thermal Monocular 384",
+"Balaclava Winter Pro",
+"Holosun Red Dot Sight",
+"Kevlar Neck Protection",
+"Military Flashlight 1200lm",
+"War Belt System"
+];
+
+const categories = ["armor","clothes","gear","electronics","medical","drones"];
+
+let products = [];
+
 for(let i=1;i<=300;i++){
-products.push({
-id:i,
-name:"Товар №"+i,
-cat:categories[i%categories.length],
-price:Math.floor(Math.random()*5000+500)
-});
+
+    let base = names[i % names.length];
+
+    products.push({
+        id: i,
+        name: base + " Mk." + (Math.floor(Math.random()*5)+1),
+        cat: categories[i % categories.length],
+        price: Math.floor(Math.random()*20000 + 500)
+    });
+
 }
 
 let cart=[];
@@ -79,7 +110,7 @@ let html=products
 .map(p=>`
 <div class='card'>
 <div><b>${p.name}</b></div>
-<div class='small'>${p.cat}</div>
+<div class='small'>[${p.cat.toUpperCase()}]</div>
 <div>${p.price} грн</div>
 <button class='btn' onclick='add(${p.id})'>Додати</button>
 </div>
