@@ -13,31 +13,32 @@ body {
     background: var(--dark);
     color: var(--text);
     line-height: 1.6;
+    min-height: 100vh;
 }
 
-/* Військовий фон */
+/* ========== ОСНОВНИЙ ФОН САЙТУ ========== */
 body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background: linear-gradient(rgba(10,15,10,0.88), rgba(10,15,10,0.95)),
-                url('https://images.unsplash.com/photo-1585208798174-6cedd78e0190?w=1920') center/cover no-repeat;
+    background: 
+        linear-gradient(
+            rgba(8, 12, 8, 0.82), 
+            rgba(8, 12, 8, 0.90)
+        ),
+        url('background.jpg') center/cover no-repeat fixed;
     z-index: -1;
-    filter: brightness(0.85);
-}
-
-.container { 
-    max-width: 1280px; 
-    margin: 0 auto; 
-    padding: 0 20px; 
+    filter: brightness(0.78) contrast(1.08) saturate(0.95);
 }
 
 /* Top Bar */
 .top-bar {
-    background: #000;
+    background: rgba(0, 0, 0, 0.85);
     padding: 12px 0;
     font-size: 0.95rem;
     color: #aaa;
+    position: relative;
+    z-index: 10;
 }
 .top-flex { 
     display: flex; 
@@ -49,7 +50,7 @@ body::before {
 
 /* Header */
 .main-header { 
-    background: rgba(15,20,15,0.95); 
+    background: rgba(15, 20, 15, 0.95); 
     position: sticky; 
     top: 0; 
     z-index: 1000; 
@@ -130,7 +131,11 @@ body::before {
 }
 
 /* Навігація */
-.main-nav { background: rgba(31,42,31,0.9); }
+.main-nav { 
+    background: rgba(31,42,31,0.92); 
+    position: relative;
+    z-index: 10;
+}
 .nav-list {
     display: flex;
     gap: 35px;
@@ -147,8 +152,7 @@ body::before {
 /* Hero */
 .hero {
     height: 520px;
-    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.75)),
-                url('https://images.unsplash.com/photo-1585208798174-6cedd78e0190?w=1920') center/cover;
+    position: relative;
     display: flex;
     align-items: center;
     text-align: center;
@@ -157,6 +161,7 @@ body::before {
 .hero-content h2 {
     font-size: 3rem;
     margin-bottom: 16px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
 }
 .cta-button {
     padding: 16px 42px;
@@ -167,6 +172,7 @@ body::before {
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
+    transition: 0.3s;
 }
 .cta-button:hover {
     background: #f39c12;
@@ -174,12 +180,13 @@ body::before {
 }
 
 /* Секції */
-.section { padding: 50px 0; }
+.section { padding: 60px 0; }
 .section-title {
     font-size: 1.8rem;
     margin-bottom: 30px;
     text-align: center;
     color: white;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.7);
 }
 
 /* Товари */
