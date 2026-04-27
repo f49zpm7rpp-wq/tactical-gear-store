@@ -3,181 +3,330 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tactical UA | Professional Military Store</title>
+    <title>Tactical UA | Професійне військове спорядження</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="top-nav">
-    <div class="container flex-row">
-        <div class="contacts"><i class="fas fa-phone"></i> 0 800 123 456 | <i class="fas fa-clock"></i> 24/7</div>
-        <div class="lang-switcher">
-            <span class="active">UA</span><span>EN</span><span>RU</span>
+<!-- Top Bar -->
+<div class="top-bar">
+    <div class="container">
+        <div class="top-flex">
+            <div class="contacts">
+                <i class="fas fa-phone"></i> 0 800 33 22 11 • <i class="fas fa-clock"></i> Працюємо 24/7
+            </div>
+            <div class="trust-badges">
+                <span><i class="fas fa-shield-alt"></i> Гарантія якості</span>
+                <span><i class="fas fa-truck"></i> Доставка по всій Україні</span>
+            </div>
+            <div class="lang-switcher">
+                <span class="active">UA</span>
+                <span>EN</span>
+            </div>
         </div>
     </div>
 </div>
 
+<!-- Header -->
 <header class="main-header">
     <div class="container header-grid">
-        <div class="logo-area" onclick="showPage('shop')">
+        <div class="logo" onclick="showPage('shop')">
             <h1>TACTICAL<span>UA</span></h1>
-            <small>Все для перемоги</small>
-        </div>
-        
-        <div class="search-wrapper">
-            <input type="text" id="search" placeholder="Пошук спорядження..." oninput="render()">
-            <button><i class="fas fa-search"></i></button>
+            <p>Все для перемоги</p>
         </div>
 
-        <div class="actions">
-            <div class="user-btn"><i class="fas fa-user-shield"></i><span>Кабінет</span></div>
-            <div class="cart-wrapper" onclick="showPage('cart')">
+        <div class="search-wrapper">
+            <input type="text" id="search-input" placeholder="Пошук по назві або артикулу..." onkeyup="renderProducts()">
+            <button onclick="renderProducts()"><i class="fas fa-search"></i></button>
+        </div>
+
+        <div class="header-actions">
+            <button class="action-btn" onclick="toggleWishlist()"><i class="fas fa-heart"></i></button>
+            <button class="action-btn" onclick="showPage('cart')">
                 <i class="fas fa-shopping-cart"></i>
-                <span id="cart-count">0</span>
-                <span class="cart-label">Кошик</span>
+                <span id="cart-count" class="count-badge">0</span>
+            </button>
+            <button class="action-btn"><i class="fas fa-user"></i></button>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-menu">
+                <li onclick="filterCategory('all')">Всі товари</li>
+                <li onclick="filterCategory('бронежилети')">Бронежилети & Плити</li>
+                <li onclick="filterCategory('оптика')">Оптика та ПНБ</li>
+                <li onclick="filterCategory('дрони')">БПЛА та аксесуари</li>
+                <li onclick="filterCategory('медицина')">Тактична медицина</li>
+                <li onclick="filterCategory('одяг')">Одяг та взуття</li>
+                <li onclick="filterCategory('аксесуари')">Аксесуари</li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h2>Професійне спорядження<br>для захисників України</h2>
+        <p>Оригінальне обладнання від провідних світових виробників</p>
+        <button class="cta-btn" onclick="showPage('shop')">Переглянути каталог</button>
+    </div>
+</section>
+
+<div class="container main-content">
+
+    <!-- Shop Page -->
+    <div id="shop-page" class="page active">
+        <div class="content-grid">
+            <!-- Sidebar Filters -->
+            <aside class="filters-sidebar">
+                <h3>Фільтри</h3>
+                
+                <div class="filter-group">
+                    <h4>Категорія</h4>
+                    <ul id="category-list"></ul>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Ціна (грн)</h4>
+                    <div class="price-range">
+                        <input type="number" id="price-min" placeholder="від" oninput="renderProducts()">
+                        <span>—</span>
+                        <input type="number" id="price-max" placeholder="до" oninput="renderProducts()">
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label><input type="checkbox" id="in-stock" onchange="renderProducts()"> Тільки в наявності</label>
+                </div>
+
+                <button class="reset-btn" onclick="resetFilters()">Скинути всі фільтри</button>
+            </aside>
+
+            <!-- Products -->
+            <div class="products-section">
+                <div class="section-header">
+                    <h2 id="section-title">Всі товари</h2>
+                    <select id="sort-select" onchange="renderProducts()">
+                        <option value="new">Спочатку нові</option>
+                        <option value="price-asc">Ціна: від низької</option>
+                        <option value="price-desc">Ціна: від високої</option>
+                        <option value="name">За назвою</option>
+                    </select>
+                </div>
+
+                <div id="products-grid" class="products-grid"></div>
             </div>
         </div>
     </div>
-</header>
 
-<div class="container main-layout">
-    <div id="shop-page" class="page-content">
-        <div class="content-wrapper">
-            <aside class="filters-sidebar">
-                <div class="filter-block">
-                    <h4><i class="fas fa-bars"></i> Категорії</h4>
-                    <ul class="cat-list">
-                        <li onclick="filterCat('all')">Всі товари</li>
-                        <li onclick="filterCat('бронежилети')">Бронежилети</li>
-                        <li onclick="filterCat('оптика')">Оптика та ПНБ</li>
-                        <li onclick="filterCat('дрони')">БПЛА</li>
-                        <li onclick="filterCat('медицина')">Медицина</li>
-                        <li onclick="filterCat('одяг')">Одяг</li>
-                    </ul>
-                </div>
-                
-                <div class="filter-block">
-                    <h4><i class="fas fa-sort-amount-down"></i> Сортування</h4>
-                    <select id="sort" onchange="render()">
-                        <option value="new">Спочатку нові</option>
-                        <option value="cheap">Найдешевші</option>
-                        <option value="expensive">Найдорожчі</option>
-                    </select>
-                </div>
-            </aside>
+    <!-- Cart Page -->
+    <div id="cart-page" class="page">
+        <h2>Ваш кошик</h2>
+        <button class="back-btn" onclick="showPage('shop')">← Повернутися до каталогу</button>
 
-            <main class="products-grid-container">
-                <div id="list" class="products-grid"></div>
-            </main>
-        </div>
-    </div>
-
-    <div id="cart-page" class="page-content" style="display: none;">
-        <div class="cart-header">
-            <h2>Ваш кошик</h2>
-            <button class="btn-text" onclick="showPage('shop')">← Повернутися до покупок</button>
-        </div>
-        <div class="cart-table-wrapper">
-            <div id="cart-list" class="cart-items-list"></div>
-            <div class="cart-checkout-block">
-                <div class="summary-line"><span>Товари:</span> <span id="total-price">0</span> грн</div>
-                <div class="summary-line"><span>Доставка:</span> <span>За тарифами перевізника</span></div>
+        <div class="cart-content">
+            <div id="cart-items" class="cart-items"></div>
+            
+            <div class="cart-summary">
+                <h3>Підсумок замовлення</h3>
+                <div class="summary-row"><span>Товари</span><span id="cart-subtotal">0 ₴</span></div>
+                <div class="summary-row"><span>Доставка</span><span>За тарифами перевізника</span></div>
                 <hr>
-                <div class="summary-line total"><span>Всього:</span> <span id="grand-total">0</span> грн</div>
-                <button class="checkout-main-btn">ОФОРМИТИ ЗАМОВЛЕННЯ</button>
+                <div class="summary-row total"><span>До оплати</span><span id="cart-total">0 ₴</span></div>
+                
+                <button class="checkout-btn">ОФОРМИТИ ЗАМОВЛЕННЯ</button>
+                <p class="secure">🔒 Безпечна оплата • Гарантія повернення</p>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-// Дані товарів з реальними категоріями
-const catalogData = [
-    { name: "Plate Carrier Gen.4 Multicam", cat: "бронежилети", price: 16800, img: "https://images.unsplash.com/photo-1595078475328-1ab05d0a6a0e?w=500" },
-    { name: "Шолом FAST Ballistic NIJ IIIa", cat: "бронежилети", price: 12500, img: "https://images.unsplash.com/photo-1611911813524-8e9f42835560?w=500" },
-    { name: "Приціл Holosun HS403B", cat: "оптика", price: 9200, img: "https://images.unsplash.com/photo-1595590424283-b8f17842773f?w=500" },
-    { name: "Mavic 3T (Thermal)", cat: "дрони", price: 185000, img: "https://images.unsplash.com/photo-1508614589041-895b839676d6?w=500" },
-    { name: "IFAK Medical Kit Elite", cat: "медицина", price: 4800, img: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=500" },
-    { name: "Черевики Lowa Zephyr MK2", cat: "одяг", price: 9800, img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500" }
-];
-
-let allProducts = [];
-for(let i=0; i<60; i++) {
-    let base = catalogData[i % catalogData.length];
-    allProducts.push({
-        id: i,
-        ...base,
-        name: base.name + " (" + (i+1) + ")",
-        price: base.price + Math.floor(Math.random()*500),
-        status: i % 4 === 0 ? "ТОП" : "В НАЯВНОСТІ"
-    });
-}
-
-let cart = [];
-let currentCat = 'all';
-
-function filterCat(c) { currentCat = c; render(); }
-
-function showPage(p) {
-    document.getElementById('shop-page').style.display = p === 'shop' ? 'block' : 'none';
-    document.getElementById('cart-page').style.display = p === 'cart' ? 'block' : 'none';
-    if(p === 'cart') renderCart();
-    window.scrollTo(0,0);
-}
-
-function add(id) {
-    cart.push(allProducts.find(p => p.id === id));
-    document.getElementById('cart-count').innerText = cart.length;
-}
-
-function render() {
-    let search = document.getElementById("search").value.toLowerCase();
-    let sort = document.getElementById("sort").value;
-    let filtered = allProducts.filter(p => (currentCat === 'all' || p.cat === currentCat) && p.name.toLowerCase().includes(search));
-
-    if(sort === 'cheap') filtered.sort((a,b) => a.price - b.price);
-    if(sort === 'expensive') filtered.sort((a,b) => b.price - a.price);
-
-    document.getElementById("list").innerHTML = filtered.map(p => `
-        <div class="product-card">
-            <div class="img-container" style="background-image: url('${p.img}')">
-                <span class="status-badge ${p.status === 'ТОП' ? 'gold' : ''}">${p.status}</span>
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h3>TACTICAL UA</h3>
+                <p>Професійний магазин військового спорядження</p>
             </div>
-            <div class="product-info">
-                <p class="cat-label">${p.cat}</p>
-                <h4>${p.name}</h4>
-                <div class="product-footer">
-                    <span class="price">${p.price.toLocaleString()} ₴</span>
-                    <button class="add-btn" onclick="add(${p.id})"><i class="fas fa-cart-plus"></i></button>
-                </div>
+            <div>
+                <h4>Покупцям</h4>
+                <ul>
+                    <li>Доставка та оплата</li>
+                    <li>Гарантія та повернення</li>
+                    <li>Контакти</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Інформація</h4>
+                <ul>
+                    <li>Про нас</li>
+                    <li>Блог</li>
+                    <li>Відгуки</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Контакти</h4>
+                <p>0 800 33 22 11<br>support@tacticalua.com</p>
             </div>
         </div>
-    `).join("");
+        <div class="copyright">
+            © 2026 Tactical UA. Усі права захищені. Слава Україні!
+        </div>
+    </div>
+</footer>
+
+<script>
+// === ДАНІ ТОВАРІВ ===
+const products = [
+    { id: 1, name: "Plate Carrier 4.0 Multicam", category: "бронежилети", price: 16800, img: "https://images.unsplash.com/photo-1595078475328-1ab05d0a6a0e", rating: 4.9, inStock: true },
+    { id: 2, name: "Шолом FAST Ballistic NIJ IIIA", category: "бронежилети", price: 14500, img: "https://images.unsplash.com/photo-1611911813524-8e9f42835560", rating: 5.0, inStock: true },
+    { id: 3, name: "Приціл Holosun HS510C", category: "оптика", price: 11200, img: "https://images.unsplash.com/photo-1595590424283-b8f17842773f", rating: 4.8, inStock: true },
+    { id: 4, name: "DJI Mavic 3T Thermal", category: "дрони", price: 189000, img: "https://images.unsplash.com/photo-1508614589041-895b839676d6", rating: 4.9, inStock: false },
+    { id: 5, name: "IFAK Elite Gen.2", category: "медицина", price: 5200, img: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee", rating: 5.0, inStock: true },
+    { id: 6, name: "Черевики Lowa Zephyr GTX", category: "одяг", price: 9800, img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff", rating: 4.7, inStock: true },
+    // Додано ще товари для реалістичності
+    { id: 7, name: "Тактичний рюкзак 5.11 Rush 72", category: "аксесуари", price: 8500, img: "https://picsum.photos/id/201/600/400", rating: 4.6, inStock: true },
+    { id: 8, name: "Плити керамічні Level IV", category: "бронежилети", price: 24500, img: "https://picsum.photos/id/237/600/400", rating: 5.0, inStock: true }
+];
+
+let cart = [];
+let currentCategory = 'all';
+let wishlist = [];
+
+// === ФУНКЦІЇ ===
+function showPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(page + '-page').classList.add('active');
+    if (page === 'cart') renderCart();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function filterCategory(cat) {
+    currentCategory = cat;
+    document.getElementById('section-title').textContent = cat === 'all' ? 'Всі товари' : cat.charAt(0).toUpperCase() + cat.slice(1);
+    renderProducts();
+}
+
+function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    if (product) {
+        cart.push(product);
+        updateCartCount();
+        // Проста анімація
+        const badge = document.getElementById('cart-count');
+        badge.style.transform = 'scale(1.4)';
+        setTimeout(() => badge.style.transform = 'scale(1)', 200);
+    }
+}
+
+function updateCartCount() {
+    document.getElementById('cart-count').textContent = cart.length;
+}
+
+function renderProducts() {
+    const grid = document.getElementById('products-grid');
+    const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
+    const minPrice = parseInt(document.getElementById('price-min').value) || 0;
+    const maxPrice = parseInt(document.getElementById('price-max').value) || Infinity;
+    const onlyStock = document.getElementById('in-stock').checked;
+
+    let filtered = products.filter(p => {
+        const matchCat = currentCategory === 'all' || p.category === currentCategory;
+        const matchSearch = p.name.toLowerCase().includes(searchTerm);
+        const matchPrice = p.price >= minPrice && p.price <= maxPrice;
+        const matchStock = !onlyStock || p.inStock;
+        return matchCat && matchSearch && matchPrice && matchStock;
+    });
+
+    // Сортування
+    const sortMode = document.getElementById('sort-select').value;
+    if (sortMode === 'price-asc') filtered.sort((a,b) => a.price - b.price);
+    if (sortMode === 'price-desc') filtered.sort((a,b) => b.price - a.price);
+    if (sortMode === 'name') filtered.sort((a,b) => a.name.localeCompare(b.name));
+
+    grid.innerHTML = filtered.map(p => `
+        <div class="product-card">
+            <div class="product-image" style="background-image: url('${p.img}?w=600')">
+                ${!p.inStock ? '<span class="out-of-stock">Немає в наявності</span>' : ''}
+                <button class="wishlist-btn" onclick="toggleWishlistItem(${p.id}); event.stopImmediatePropagation();"><i class="fas fa-heart"></i></button>
+            </div>
+            <div class="product-body">
+                <span class="category-tag">${p.category}</span>
+                <h3>${p.name}</h3>
+                <div class="rating">★ ${p.rating}</div>
+                <div class="price">${p.price.toLocaleString('uk-UA')} ₴</div>
+                <button class="add-to-cart-btn ${!p.inStock ? 'disabled' : ''}" 
+                        onclick="addToCart(${p.id}); event.stopImmediatePropagation();" 
+                        ${!p.inStock ? 'disabled' : ''}>
+                    ${p.inStock ? 'Додати в кошик' : 'Немає в наявності'}
+                </button>
+            </div>
+        </div>
+    `).join('');
 }
 
 function renderCart() {
-    const list = document.getElementById("cart-list");
-    list.innerHTML = cart.length === 0 ? "<div class='empty-msg'>Кошик порожній</div>" : 
-        cart.map((c, i) => `
-            <div class="cart-row">
-                <img src="${c.img}">
-                <div class="cart-info"><h5>${c.name}</h5><p>${c.price} ₴</p></div>
-                <button onclick="remove(${i})"><i class="fas fa-trash"></i></button>
+    const container = document.getElementById('cart-items');
+    if (cart.length === 0) {
+        container.innerHTML = `<p class="empty-cart">Кошик порожній. Додайте товари з каталогу.</p>`;
+        document.getElementById('cart-subtotal').textContent = '0 ₴';
+        document.getElementById('cart-total').textContent = '0 ₴';
+        return;
+    }
+
+    container.innerHTML = cart.map((item, index) => `
+        <div class="cart-item">
+            <img src="${item.img}" alt="${item.name}">
+            <div class="cart-item-info">
+                <h4>${item.name}</h4>
+                <p>${item.price.toLocaleString('uk-UA')} ₴</p>
             </div>
-        `).join("");
-    const total = cart.reduce((s,x)=>s+x.price,0);
-    document.getElementById("total-price").innerText = total.toLocaleString();
-    document.getElementById("grand-total").innerText = total.toLocaleString();
+            <button class="remove-btn" onclick="removeFromCart(${index})"><i class="fas fa-trash"></i></button>
+        </div>
+    `).join('');
+
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    document.getElementById('cart-subtotal').textContent = total.toLocaleString('uk-UA') + ' ₴';
+    document.getElementById('cart-total').textContent = total.toLocaleString('uk-UA') + ' ₴';
 }
 
-function remove(i) {
-    cart.splice(i, 1);
-    document.getElementById('cart-count').innerText = cart.length;
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCartCount();
     renderCart();
 }
 
-render();
+function resetFilters() {
+    document.getElementById('search-input').value = '';
+    document.getElementById('price-min').value = '';
+    document.getElementById('price-max').value = '';
+    document.getElementById('in-stock').checked = false;
+    renderProducts();
+}
+
+function toggleWishlistItem(id) {
+    if (wishlist.includes(id)) {
+        wishlist = wishlist.filter(item => item !== id);
+    } else {
+        wishlist.push(id);
+    }
+    // Можна додати повідомлення
+    alert('Товар ' + (wishlist.includes(id) ? 'додано' : 'видалено') + ' зі списку бажань');
+}
+
+// Ініціалізація
+function init() {
+    updateCartCount();
+    renderProducts();
+}
+
+window.onload = init;
 </script>
 </body>
 </html>
