@@ -2,17 +2,15 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Tactical UA Store</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
-    <div class="header-content">
-        <div class="logo">TACTICAL UA STORE</div>
-        <div class="sub">300+ позицій спорядження</div>
-    </div>
+    <div class="logo">TACTICAL UA STORE</div>
+    <div class="sub">300+ одиниць спорядження</div>
 </header>
 
 <div class="layout">
@@ -27,8 +25,8 @@
             <option value="medical">Медицина</option>
             <option value="drones">БПЛА</option>
         </select>
-        <input id="search" placeholder="Пошук..." />
-        <button class="btn-main" onclick="render()">Застосувати</button>
+        <input id="search" placeholder="Пошук за назвою..." />
+        <button class="btn-main" onclick="render()">Показати результати</button>
     </aside>
 
     <main class="main">
@@ -38,13 +36,15 @@
     <aside class="cart">
         <h3>Кошик</h3>
         <div id="cart-items"></div>
-        <div class="total">Разом: <span id="total-price">0</span> грн</div>
+        <div class="total-box">
+            <strong>Разом:</strong> <span id="total-price">0</span> грн
+        </div>
     </aside>
 </div>
 
 <script>
-// Дані (лишаємо як були)
-const names = ["Plate Carrier LBT", "FAST Helmet", "CAT Tourniquet", "Mavic 3", "PVS-14", "Softshell Jacket"];
+// Дані
+const names = ["Plate Carrier LBT", "FAST Helmet", "CAT Tourniquet", "Mavic 3", "PVS-14", "Softshell Jacket", "Combat Boots", "Tactical Gloves"];
 const categories = ["armor","clothes","gear","electronics","medical","drones"];
 let products = [];
 for(let i=1;i<=300;i++){
@@ -62,20 +62,27 @@ function add(id){
     updateCart();
 }
 function updateCart(){
-    document.getElementById("cart-items").innerHTML = cart.map(c=>`<div class="cart-item">${c.name} - <b>${c.price}</b></div>`).join("");
-    document.getElementById("total-price").innerText = cart.reduce((s,i)=>s+i.price,0);
+    document.getElementById("cart-items").innerHTML = cart.map(c=>`
+        <div class="cart-item">
+            <span>${c.name}</span>
+            <b>${c.price} грн</b>
+        </div>
+    `).join("");
+    document.getElementById("total-price").innerText = cart.reduce((s,i)=>s+i.price,0).toLocaleString();
 }
 function render(){
     let cat = document.getElementById("category").value;
     let search = document.getElementById("search").value.toLowerCase();
     document.getElementById("list").innerHTML = products
         .filter(p => (cat==="all" || p.cat===cat) && p.name.toLowerCase().includes(search))
-        .map(p=>`<div class="card">
-            <div class="tag">${p.cat}</div>
-            <div class="title">${p.name}</div>
-            <div class="price">${p.price} грн</div>
-            <button onclick="add(${p.id})">Додати</button>
-        </div>`).join("");
+        .map(p=>`
+            <div class="card">
+                <div class="tag">${p.cat.toUpperCase()}</div>
+                <div class="title">${p.name}</div>
+                <div class="price">${p.price.toLocaleString()} грн</div>
+                <button onclick="add(${p.id})">У кошик</button>
+            </div>
+        `).join("");
 }
 render();
 </script>
