@@ -5,7 +5,7 @@ window.allProducts = [
         name: "Бронежилет Plate Carrier Gen.4 Multicam",
         category: "Захист",
         price: 16800,
-        image: "https://images.unsplash.com/photo-1595078475328-1ab05d0a6a0e?w=600",
+        image: "https://picsum.photos/id/1015/600/400",
         rating: 4.9,
         inStock: true
     },
@@ -23,7 +23,7 @@ window.allProducts = [
         name: "FAST шолом Ballistic NIJ IIIA",
         category: "Шоломи",
         price: 14500,
-        image: "https://images.unsplash.com/photo-1611911813524-8e9f42835560?w=600",
+        image: "https://picsum.photos/id/201/600/400",
         rating: 4.8,
         inStock: true
     },
@@ -32,19 +32,26 @@ window.allProducts = [
         name: "Убакс Combat Shirt",
         category: "Одяг",
         price: 3200,
-        image: "https://picsum.photos/id/201/600/400",
+        image: "https://picsum.photos/id/106/600/400",
         rating: 4.7,
         inStock: true
     },
-    // Додай сюди всі товари з обох твоїх файлів. Я об'єднав назви та категорії.
-    // Приклад ще одного:
     {
         id: 5,
         name: "Приціл Holosun HS510C",
         category: "Оптика",
         price: 11200,
-        image: "https://images.unsplash.com/photo-1595590424283-b8f17842773f?w=600",
+        image: "https://picsum.photos/id/1074/600/400",
         rating: 4.9,
+        inStock: true
+    },
+    {
+        id: 6,
+        name: "Тактичний рюкзак 5.11 Rush 72",
+        category: "Аксесуари",
+        price: 8500,
+        image: "https://picsum.photos/id/133/600/400",
+        rating: 4.6,
         inStock: true
     }
 ];
