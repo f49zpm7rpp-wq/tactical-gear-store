@@ -1,137 +1,126 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tactical UA Store</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tactical UA Store | Спорядження</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <header>
-<div class="logo">TACTICAL UA STORE</div>
-<div class="sub">Каталог 300+ військового спорядження</div>
+    <div class="header-content">
+        <div class="logo">TACTICAL UA STORE</div>
+        <div class="sub">Каталог 300+ одиниць військового спорядження</div>
+    </div>
 </header>
 
 <div class="layout">
+    <aside class="sidebar">
+        <h3>Фільтри</h3>
+        <label for="category">Категорія</label>
+        <select id="category">
+            <option value="all">Всі категорії</option>
+            <option value="armor">Захист</option>
+            <option value="clothes">Одяг</option>
+            <option value="gear">Спорядження</option>
+            <option value="electronics">Електроніка</option>
+            <option value="medical">Медицина</option>
+            <option value="drones">БПЛА</option>
+        </select>
 
-<!-- SIDEBAR -->
-<div class="sidebar">
-<h3>Фільтри</h3>
+        <label for="search">Пошук за назвою</label>
+        <input id="search" type="text" placeholder="Наприклад: Plate Carrier..." />
 
-<select id="category">
-<option value="all">Всі категорії</option>
-<option value="armor">Захист</option>
-<option value="clothes">Одяг</option>
-<option value="gear">Спорядження</option>
-<option value="electronics">Електроніка</option>
-<option value="medical">Медицина</option>
-<option value="drones">БПЛА</option>
-</select>
+        <button class="btn-apply" onclick="render()">Застосувати</button>
 
-<input id="search" placeholder="Пошук..." />
+        <div class="hint">
+            MIL-SIM / Tactical Equipment Support<br>
+            v.2.0 Оновлено
+        </div>
+    </aside>
 
-<button onclick="render()">Застосувати</button>
+    <main class="main">
+        <div id="list" class="grid"></div>
+    </main>
 
-<div class="hint">
-MIL-SIM / Tactical Equipment
-</div>
-</div>
-
-<!-- MAIN -->
-<div class="main">
-<div id="list" class="grid"></div>
-</div>
-
-<!-- CART -->
-<div class="cart">
-<h3>Кошик</h3>
-<div id="cart"></div>
-</div>
-
+    <aside class="cart">
+        <h3>Кошик</h3>
+        <div id="cart-items"></div>
+        <div class="cart-total">
+            <strong>Разом: </strong> <span id="total-price">0</span> грн
+        </div>
+        <button class="btn-order" onclick="alert('Замовлення прийнято!')">Оформити замовлення</button>
+    </aside>
 </div>
 
 <script>
-// ===== DATA =====
+// ===== DATA GENERATION =====
 const names = [
-"Plate Carrier LBT 6094",
-"FAST Ballistic Helmet",
-"CAT Tourniquet Gen7",
-"Mavic 3 Tactical Drone",
-"PVS-14 Night Vision",
-"AK-74 Magazine 5.45",
-"Softshell Combat Jacket",
-"IFAK Medical Kit",
-"Ballistic Plates Level IV",
-"ELRS Radio Controller",
-"Combat Boots Gore-Tex",
-"Tactical Gloves Mechanix",
-"FPV Drone 7 inch",
-"Ranger Green Backpack 45L",
-"Thermal Monocular 384",
-"Balaclava Winter Pro",
-"Holosun Red Dot Sight",
-"Kevlar Neck Protection",
-"Military Flashlight 1200lm",
-"War Belt System"
+    "Plate Carrier LBT 6094", "FAST Ballistic Helmet", "CAT Tourniquet Gen7",
+    "Mavic 3 Tactical Drone", "PVS-14 Night Vision", "AK-74 Magazine 5.45",
+    "Softshell Combat Jacket", "IFAK Medical Kit", "Ballistic Plates Level IV",
+    "ELRS Radio Controller", "Combat Boots Gore-Tex", "Tactical Gloves Mechanix",
+    "FPV Drone 7 inch", "Ranger Green Backpack 45L", "Thermal Monocular 384",
+    "Balaclava Winter Pro", "Holosun Red Dot Sight", "Kevlar Neck Protection",
+    "Military Flashlight 1200lm", "War Belt System"
 ];
 
 const categories = ["armor","clothes","gear","electronics","medical","drones"];
-
 let products = [];
 
-for(let i=1;i<=300;i++){
-let base = names[i % names.length];
-
-products.push({
-id:i,
-name: base + " Mk." + (Math.floor(Math.random()*5)+1),
-cat: categories[i % categories.length],
-price: Math.floor(Math.random()*20000 + 500)
-});
+for(let i=1; i<=300; i++){
+    let base = names[i % names.length];
+    products.push({
+        id: i,
+        name: base + " Mk." + (Math.floor(Math.random()*5)+1),
+        cat: categories[i % categories.length],
+        price: Math.floor(Math.random()*20000 + 500)
+    });
 }
 
 let cart = [];
 
-// ===== CART =====
+// ===== FUNCTIONS =====
 function add(id){
-cart.push(products.find(p=>p.id===id));
-updateCart();
+    const item = products.find(p => p.id === id);
+    cart.push(item);
+    updateCart();
 }
 
 function updateCart(){
-document.getElementById("cart").innerHTML =
-cart.map(c=>`
-<div class="cart-item">
-${c.name}<br>
-<span>${c.price} грн</span>
-</div>
-`).join("");
+    const cartContainer = document.getElementById("cart-items");
+    const totalContainer = document.getElementById("total-price");
+    
+    cartContainer.innerHTML = cart.map(c => `
+        <div class="cart-item">
+            <span>${c.name}</span>
+            <b>${c.price} грн</b>
+        </div>
+    `).join("");
+
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    totalContainer.innerText = total.toLocaleString();
 }
 
-// ===== RENDER =====
 function render(){
-let cat = document.getElementById("category").value;
-let search = document.getElementById("search").value.toLowerCase();
+    const cat = document.getElementById("category").value;
+    const search = document.getElementById("search").value.toLowerCase();
+    const list = document.getElementById("list");
 
-document.getElementById("list").innerHTML =
-products
-.filter(p =>
-(cat==="all" || p.cat===cat) &&
-p.name.toLowerCase().includes(search)
-)
-.map(p=>`
-<div class="card">
-<div class="title">${p.name}</div>
-<div class="tag">[${p.cat.toUpperCase()}]</div>
-<div class="price">${p.price} грн</div>
-<button onclick="add(${p.id})">Додати</button>
-</div>
-`).join("");
+    list.innerHTML = products
+        .filter(p => (cat === "all" || p.cat === cat) && p.name.toLowerCase().includes(search))
+        .map(p => `
+            <div class="card">
+                <div class="tag">${p.cat.toUpperCase()}</div>
+                <div class="title">${p.name}</div>
+                <div class="price">${p.price.toLocaleString()} грн</div>
+                <button onclick="add(${p.id})">У кошик</button>
+            </div>
+        `).join("");
 }
 
-render();
+render(); // Початковий рендер
 </script>
 
 </body>
