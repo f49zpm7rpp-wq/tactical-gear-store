@@ -83,3 +83,35 @@ padding: 10px;
 border-left: 2px solid #2f4f2f;
 overflow-y: auto;
 }
+body {
+background: url("https://images.unsplash.com/photo-1605639156481-47d4b0d2f0f3?auto=format&fit=crop&w=1500&q=80");
+background-size: cover;
+background-attachment: fixed;
+}
+
+.bg-overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(10, 15, 10, 0.85);
+z-index: -1;
+}
+/* легкий military tint */
+body::before {
+content: "";
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: repeating-linear-gradient(
+45deg,
+rgba(0, 255, 0, 0.03),
+rgba(0, 255, 0, 0.03) 2px,
+transparent 2px,
+transparent 6px
+);
+z-index: -1;
+}
