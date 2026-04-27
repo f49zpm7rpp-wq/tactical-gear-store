@@ -1,12 +1,25 @@
 <!DOCTYPE html>
+<html lang="uk">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tactical UA Store</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
 <header>
 <div><b>TACTICAL UA STORE</b></div>
 <div>Каталог 300+ позицій</div>
 </header>
 
 <div class="container">
+
 <div class="sidebar">
 <h3>Фільтри</h3>
+
 <select id="category">
 <option value="all">Всі</option>
 <option value="armor">Захист</option>
@@ -14,13 +27,16 @@
 <option value="gear">Спорядження</option>
 <option value="electronics">Електроніка</option>
 </select>
+
 <input id="search" placeholder="Пошук..." />
+
 <button class="btn" onclick="render()">Застосувати</button>
 </div>
 
 <div class="main">
 <div id="list" class="grid"></div>
 </div>
+
 </div>
 
 <div class="cart">
@@ -31,6 +47,7 @@
 <script>
 const categories=["armor","clothes","gear","electronics"];
 let products=[];
+
 for(let i=1;i<=300;i++){
 products.push({
 id:i,
@@ -49,24 +66,30 @@ updateCart();
 }
 
 function updateCart(){
-document.getElementById("cart").innerHTML=cart.map(c=>`<div>${c.name} - ${c.price}₴</div>`).join("");
+document.getElementById("cart").innerHTML =
+cart.map(c=>`<div>${c.name} - ${c.price}₴</div>`).join("");
 }
 
 function render(){
 let cat=document.getElementById("category").value;
 let search=document.getElementById("search").value.toLowerCase();
-let html=products.filter(p=> (cat=="all"||p.cat==cat) && p.name.toLowerCase().includes(search))
+
+let html=products
+.filter(p=> (cat=="all"||p.cat==cat) && p.name.toLowerCase().includes(search))
 .map(p=>`
 <div class='card'>
 <div><b>${p.name}</b></div>
 <div class='small'>${p.cat}</div>
 <div>${p.price} грн</div>
 <button class='btn' onclick='add(${p.id})'>Додати</button>
-</div>`).join("");
+</div>
+`).join("");
+
 document.getElementById("list").innerHTML=html;
 }
 
 render();
 </script>
+
 </body>
 </html>

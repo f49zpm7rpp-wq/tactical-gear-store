@@ -1,0 +1,85 @@
+body {
+margin: 0;
+font-family: Arial, sans-serif;
+background: #0f1410;
+color: #e6e6e6;
+}
+
+header {
+background: #1b2a1d;
+padding: 15px;
+display: flex;
+justify-content: space-between;
+color: #a6ff9e;
+border-bottom: 2px solid #2f4f2f;
+}
+
+.container {
+display: flex;
+}
+
+.sidebar {
+width: 220px;
+padding: 15px;
+background: #141a15;
+border-right: 1px solid #2f4f2f;
+}
+
+.main {
+flex: 1;
+padding: 15px;
+}
+
+.grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+gap: 10px;
+}
+
+.card {
+background: #1a241c;
+padding: 10px;
+border: 1px solid #2f4f2f;
+border-radius: 8px;
+transition: 0.2s;
+}
+
+.card:hover {
+transform: scale(1.02);
+border-color: #6aff6a;
+}
+
+.btn {
+background: #2f6b2f;
+color: white;
+border: none;
+padding: 6px;
+margin-top: 5px;
+cursor: pointer;
+width: 100%;
+}
+
+.btn:hover {
+background: #3fa83f;
+}
+
+input, select {
+width: 100%;
+padding: 6px;
+margin: 5px 0;
+background: #0f1410;
+border: 1px solid #2f4f2f;
+color: white;
+}
+
+.cart {
+position: fixed;
+right: 0;
+top: 0;
+width: 220px;
+height: 100%;
+background: #111814;
+padding: 10px;
+border-left: 2px solid #2f4f2f;
+overflow-y: auto;
+}
