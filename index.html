@@ -1,171 +1,50 @@
-
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <title>Tactical Gear Store</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tactical Gear Store</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
-    TACTICAL GEAR STORE
+  <h1>Тактичний магазин</h1>
+  <p>Екіпірування та спорядження</p>
 </header>
 
-<div class="container">
+<section class="products">
+  <h2>Асортимент</h2>
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <h3>Категорії</h3>
-        <button onclick="filter('all')">Всі</button>
-        <button onclick="filter('gear')">Спорядження</button>
-        <button onclick="filter('clothes')">Одяг</button>
-        <button onclick="filter('accessories')">Аксесуари</button>
+  <div class="grid">
+    
+    <div class="card">
+      <h3>Тактичний рюкзак</h3>
+      <p>Міцний, 30L, водостійкий</p>
+      <span>2500 грн</span>
+      <button>Купити</button>
     </div>
 
-    <!-- PRODUCTS -->
-    <div class="products" id="products"></div>
-
-    <!-- CART -->
-    <div class="cart">
-        <h3>Кошик</h3>
-        <ul id="cart"></ul>
+    <div class="card">
+      <h3>Бронежилет</h3>
+      <p>Легка плитоноска</p>
+      <span>8500 грн</span>
+      <button>Купити</button>
     </div>
 
-</div>
+    <div class="card">
+      <h3>Тактичні рукавиці</h3>
+      <p>Захист + хват</p>
+      <span>900 грн</span>
+      <button>Купити</button>
+    </div>
 
-<script>
-const items = [
-    {name:"Plate Carrier", type:"gear"},
-    {name:"Tactical Helmet", type:"gear"},
-    {name:"Combat Boots", type:"clothes"},
-    {name:"Camouflage Jacket", type:"clothes"},
-    {name:"Gloves", type:"accessories"},
-    {name:"Backpack", type:"gear"}
-];
+  </div>
+</section>
 
-let cart = [];
-
-function render(list){
-    const container = document.getElementById("products");
-    container.innerHTML = "";
-
-    list.forEach((item)=>{
-        container.innerHTML += `
-        <div class="card">
-            <h4>${item.name}</h4>
-            <p>${item.type}</p>
-            <button onclick="addToCart('${item.name}')">Додати</button>
-        </div>
-        `;
-    });
-}
-
-function addToCart(name){
-    cart.push(name);
-    updateCart();
-}
-
-function updateCart(){
-    const cartList = document.getElementById("cart");
-    cartList.innerHTML = "";
-
-    cart.forEach(item=>{
-        cartList.innerHTML += `<li>${item}</li>`;
-    });
-}
-
-function filter(type){
-    if(type === "all"){
-        render(items);
-    } else {
-        render(items.filter(i=>i.type === type));
-    }
-}
-
-render(items);
-</script>
-
-</body>
-</html>
-=======
-<header>
-TACTICAL GEAR STORE
-</header>
-
-<div class="container">
-
-<!-- SIDEBAR -->
-<div class="sidebar">
-    <h3>Категорії</h3>
-    <button onclick="filter('all')">Всі</button>
-    <button onclick="filter('gear')">Спорядження</button>
-    <button onclick="filter('clothes')">Одяг</button>
-    <button onclick="filter('accessories')">Аксесуари</button>
-</div>
-
-<!-- PRODUCTS -->
-<div class="products" id="products"></div>
-
-<!-- CART -->
-<div class="cart">
-    <h3>Кошик</h3>
-    <ul id="cart"></ul>
-</div>
-
-</div>
-
-<script>
-const items = [
-    {name:"Plate Carrier", type:"gear"},
-    {name:"Tactical Helmet", type:"gear"},
-    {name:"Combat Boots", type:"clothes"},
-    {name:"Camouflage Jacket", type:"clothes"},
-    {name:"Gloves", type:"accessories"},
-    {name:"Backpack", type:"gear"}
-];
-
-let cart = [];
-
-function render(list){
-    const container = document.getElementById("products");
-    container.innerHTML = "";
-
-    list.forEach((item)=>{
-        container.innerHTML += `
-        <div class="card">
-            <h4>${item.name}</h4>
-            <p>${item.type}</p>
-            <button onclick="addToCart('${item.name}')">Додати</button>
-        </div>
-        `;
-    });
-}
-
-function addToCart(name){
-    cart.push(name);
-    updateCart();
-}
-
-function updateCart(){
-    const cartList = document.getElementById("cart");
-    cartList.innerHTML = "";
-
-    cart.forEach(item=>{
-        cartList.innerHTML += `<li>${item}</li>`;
-    });
-}
-
-function filter(type){
-    if(type === "all"){
-        render(items);
-    } else {
-        render(items.filter(i=>i.type === type));
-    }
-}
-
-render(items);
-</script>
+<footer>
+  <p>© 2026 Tactical Gear Store</p>
+</footer>
 
 </body>
 </html>
