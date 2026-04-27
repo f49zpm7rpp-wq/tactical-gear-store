@@ -1,31 +1,43 @@
-// script.js
-function renderHits() {
+// script.js - діагностична версія
+
+console.log("✅ script.js завантажився успішно!");
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("✅ DOM завантажено");
+
     const grid = document.getElementById('hits-grid');
-    if (!grid || !window.allProducts) return;
+    console.log("hits-grid елемент:", grid ? "знайдено" : "НЕ знайдено");
 
-    grid.innerHTML = window.allProducts.map(p => `
-        <div class="product-card">
-            <img src="${p.image}" alt="${p.name}">
-            <div class="product-info">
-                <h3>${p.name}</h3>
-                <div class="rating">★ ${p.rating || '4.8'}</div>
-                <div class="price">${p.price.toLocaleString('uk-UA')} ₴</div>
-                <button class="add-btn" onclick="addToCart(${p.id}); event.stopImmediatePropagation();">
-                    Додати в кошик
-                </button>
+    if (!grid) {
+        console.error("Помилка: елемент #hits-grid не знайдено в HTML");
+        return;
+    }
+
+    if (!window.allProducts || window.allProducts.length === 0) {
+        console.error("Помилка: window.allProducts не завантажено або порожній");
+        grid.innerHTML = "<p style='color: red; grid-column: 1/-1; text-align: center;'>Помилка завантаження товарів. Перевір data.js</p>";
+        return;
+    }
+
+    console.log("Товарів у allProducts:", window.allProducts.length);
+
+    let html = '';
+    window.allProducts.forEach(product => {
+        html += `
+            <div class="product-card">
+                <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/260x220?text=Фото'">
+                <div class="product-info">
+                    <h3>${product.name}</h3>
+                    <div class="rating">★ ${product.rating || '4.8'}</div>
+                    <div class="price">${product.price.toLocaleString('uk-UA')} ₴</div>
+                    <button class="add-btn" onclick="addToCart(${product.id}); event.stopImmediatePropagation();">
+                        Додати в кошик
+                    </button>
+                </div>
             </div>
-        </div>
-    `).join('');
-}
+        `;
+    });
 
-function goToShop(category = 'all') {
-    // Тимчасово просто переходимо на shop.html (створи його пізніше)
-    // Можна додати параметр: window.location.href = `shop.html?cat=${category}`;
-    window.location.href = 'shop.html';
-}
-
-// Ініціалізація
-document.addEventListener('DOMContentLoaded', () => {
-    renderHits();
-    // updateCartCount() вже є в jscart.js
+    grid.innerHTML = html;
+    console.log("✅ Товари успішно відрендерені!");
 });
