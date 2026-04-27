@@ -3,122 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tactical UA | Маркетплейс спорядження</title>
+    <title>Tactical UA | Professional Military Store</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-<div class="top-bar">
-    <div class="container flex-between">
-        <div class="langs"><span>UA</span> | <span>EN</span></div>
-        <div class="user-menu">
-            <a href="#"><i class="fas fa-balance-scale"></i> Порівняння</a>
-            <a href="#"><i class="fas fa-heart"></i> Обране</a>
-            <a href="#"><i class="fas fa-user-circle"></i> Кабінет</a>
+<div class="top-nav">
+    <div class="container flex-row">
+        <div class="contacts"><i class="fas fa-phone"></i> 0 800 123 456 | <i class="fas fa-clock"></i> 24/7</div>
+        <div class="lang-switcher">
+            <span class="active">UA</span><span>EN</span><span>RU</span>
         </div>
     </div>
 </div>
 
-<header>
-    <div class="container flex-between">
-        <div class="brand">
-            <h1>TACTICAL UA</h1>
-            <p>ВСЕ ДЛЯ ПЕРЕМОГИ</p>
+<header class="main-header">
+    <div class="container header-grid">
+        <div class="logo-area" onclick="showPage('shop')">
+            <h1>TACTICAL<span>UA</span></h1>
+            <small>Все для перемоги</small>
         </div>
-        <div class="search-box">
-            <input type="text" id="search" placeholder="Я шукаю..." oninput="render()">
+        
+        <div class="search-wrapper">
+            <input type="text" id="search" placeholder="Пошук спорядження..." oninput="render()">
             <button><i class="fas fa-search"></i></button>
         </div>
-        <div class="header-actions">
-            <button onclick="showPage('shop')" class="nav-btn"><i class="fas fa-home"></i></button>
-            <button onclick="showPage('cart')" class="cart-btn">
-                <i class="fas fa-shopping-basket"></i>
+
+        <div class="actions">
+            <div class="user-btn"><i class="fas fa-user-shield"></i><span>Кабінет</span></div>
+            <div class="cart-wrapper" onclick="showPage('cart')">
+                <i class="fas fa-shopping-cart"></i>
                 <span id="cart-count">0</span>
-            </button>
+                <span class="cart-label">Кошик</span>
+            </div>
         </div>
     </div>
 </header>
 
-<div class="container layout">
-    <div id="shop-page" class="main-content">
-        <div class="shop-header">
-            <aside class="sidebar">
-                <h3>Категорії</h3>
-                <div class="filter-group">
-                    <select id="category" onchange="render()">
-                        <option value="all">Всі товари</option>
-                        <option value="бронежилети">Бронежилети</option>
-                        <option value="оптика">Оптика та ПНБ</option>
-                        <option value="дрони">БПЛА та комплектуючі</option>
-                        <option value="медицина">Тактична медицина</option>
-                        <option value="одяг">Форма та взуття</option>
-                        <option value="зв'язок">Рації та зв'язок</option>
+<div class="container main-layout">
+    <div id="shop-page" class="page-content">
+        <div class="content-wrapper">
+            <aside class="filters-sidebar">
+                <div class="filter-block">
+                    <h4><i class="fas fa-bars"></i> Категорії</h4>
+                    <ul class="cat-list">
+                        <li onclick="filterCat('all')">Всі товари</li>
+                        <li onclick="filterCat('бронежилети')">Бронежилети</li>
+                        <li onclick="filterCat('оптика')">Оптика та ПНБ</li>
+                        <li onclick="filterCat('дрони')">БПЛА</li>
+                        <li onclick="filterCat('медицина')">Медицина</li>
+                        <li onclick="filterCat('одяг')">Одяг</li>
+                    </ul>
+                </div>
+                
+                <div class="filter-block">
+                    <h4><i class="fas fa-sort-amount-down"></i> Сортування</h4>
+                    <select id="sort" onchange="render()">
+                        <option value="new">Спочатку нові</option>
+                        <option value="cheap">Найдешевші</option>
+                        <option value="expensive">Найдорожчі</option>
                     </select>
                 </div>
-                <h3>Сортування</h3>
-                <select id="sort" onchange="render()">
-                    <option value="new">Спочатку нові</option>
-                    <option value="cheap">Від дешевих</option>
-                    <option value="expensive">Від дорогих</option>
-                </select>
             </aside>
-            
-            <main class="products-area">
-                <div id="list" class="grid"></div>
+
+            <main class="products-grid-container">
+                <div id="list" class="products-grid"></div>
             </main>
         </div>
     </div>
 
-    <div id="cart-page" style="display: none;">
-        <div class="cart-container">
-            <h2>Кошик покупок</h2>
-            <div id="full-cart-list"></div>
-            <div class="cart-footer">
-                <div class="promo">
-                    <input type="text" placeholder="Промокод">
-                    <button>Застосувати</button>
-                </div>
-                <div class="totals">
-                    <p>До сплати: <span id="total-price">0</span> грн</p>
-                    <button class="checkout-btn">ОФОРМИТИ ЗАМОВЛЕННЯ</button>
-                    <button class="back-btn" onclick="showPage('shop')">Продовжити покупки</button>
-                </div>
+    <div id="cart-page" class="page-content" style="display: none;">
+        <div class="cart-header">
+            <h2>Ваш кошик</h2>
+            <button class="btn-text" onclick="showPage('shop')">← Повернутися до покупок</button>
+        </div>
+        <div class="cart-table-wrapper">
+            <div id="cart-list" class="cart-items-list"></div>
+            <div class="cart-checkout-block">
+                <div class="summary-line"><span>Товари:</span> <span id="total-price">0</span> грн</div>
+                <div class="summary-line"><span>Доставка:</span> <span>За тарифами перевізника</span></div>
+                <hr>
+                <div class="summary-line total"><span>Всього:</span> <span id="grand-total">0</span> грн</div>
+                <button class="checkout-main-btn">ОФОРМИТИ ЗАМОВЛЕННЯ</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-// РОЗШИРЕНА БАЗА ТОВАРІВ (Імітація великого асортименту)
+// Дані товарів з реальними категоріями
 const catalogData = [
-    { name: "Plate Carrier Gen.3", cat: "бронежилети", price: 14500, img: "https://images.unsplash.com/photo-1595078475328-1ab05d0a6a0e?w=400" },
-    { name: "Тепловізор Pulsar Helion", cat: "оптика", price: 98000, img: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400" },
-    { name: "Mavic 3 Pro Fly More Combo", cat: "дрони", price: 112000, img: "https://images.unsplash.com/photo-1508614589041-895b839676d6?w=400" },
-    { name: "Аптечка IFAK NATO", cat: "медицина", price: 3200, img: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400" },
-    { name: "Рація Motorola DP4801e", cat: "зв'язок", price: 28500, img: "https://images.unsplash.com/photo-1615461066834-3199859f535d?w=400" },
-    { name: "Черевики Lowa Zephyr GTX", cat: "одяг", price: 8900, img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" }
+    { name: "Plate Carrier Gen.4 Multicam", cat: "бронежилети", price: 16800, img: "https://images.unsplash.com/photo-1595078475328-1ab05d0a6a0e?w=500" },
+    { name: "Шолом FAST Ballistic NIJ IIIa", cat: "бронежилети", price: 12500, img: "https://images.unsplash.com/photo-1611911813524-8e9f42835560?w=500" },
+    { name: "Приціл Holosun HS403B", cat: "оптика", price: 9200, img: "https://images.unsplash.com/photo-1595590424283-b8f17842773f?w=500" },
+    { name: "Mavic 3T (Thermal)", cat: "дрони", price: 185000, img: "https://images.unsplash.com/photo-1508614589041-895b839676d6?w=500" },
+    { name: "IFAK Medical Kit Elite", cat: "медицина", price: 4800, img: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=500" },
+    { name: "Черевики Lowa Zephyr MK2", cat: "одяг", price: 9800, img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500" }
 ];
 
 let allProducts = [];
-// Генеруємо 200+ товарів на основі шаблонів
-for(let i=0; i<250; i++) {
+for(let i=0; i<60; i++) {
     let base = catalogData[i % catalogData.length];
     allProducts.push({
         id: i,
         ...base,
-        name: base.name + " v." + (i+1),
-        price: base.price + Math.floor(Math.random() * 1000),
-        status: i % 5 === 0 ? "Топ продажів" : "В наявності"
+        name: base.name + " (" + (i+1) + ")",
+        price: base.price + Math.floor(Math.random()*500),
+        status: i % 4 === 0 ? "ТОП" : "В НАЯВНОСТІ"
     });
 }
 
 let cart = [];
+let currentCat = 'all';
+
+function filterCat(c) { currentCat = c; render(); }
 
 function showPage(p) {
     document.getElementById('shop-page').style.display = p === 'shop' ? 'block' : 'none';
     document.getElementById('cart-page').style.display = p === 'cart' ? 'block' : 'none';
     if(p === 'cart') renderCart();
+    window.scrollTo(0,0);
 }
 
 function add(id) {
@@ -127,28 +132,24 @@ function add(id) {
 }
 
 function render() {
-    let cat = document.getElementById("category").value;
     let search = document.getElementById("search").value.toLowerCase();
     let sort = document.getElementById("sort").value;
-
-    let filtered = allProducts.filter(p => 
-        (cat === "all" || p.cat === cat) && 
-        p.name.toLowerCase().includes(search)
-    );
+    let filtered = allProducts.filter(p => (currentCat === 'all' || p.cat === currentCat) && p.name.toLowerCase().includes(search));
 
     if(sort === 'cheap') filtered.sort((a,b) => a.price - b.price);
     if(sort === 'expensive') filtered.sort((a,b) => b.price - a.price);
 
     document.getElementById("list").innerHTML = filtered.map(p => `
-        <div class="card">
-            <div class="badge">${p.status}</div>
-            <div class="card-img" style="background-image: url('${p.img}')"></div>
-            <div class="card-content">
-                <p class="category-label">${p.cat}</p>
+        <div class="product-card">
+            <div class="img-container" style="background-image: url('${p.img}')">
+                <span class="status-badge ${p.status === 'ТОП' ? 'gold' : ''}">${p.status}</span>
+            </div>
+            <div class="product-info">
+                <p class="cat-label">${p.cat}</p>
                 <h4>${p.name}</h4>
-                <div class="price-row">
-                    <span class="price-val">${p.price.toLocaleString()} ₴</span>
-                    <button onclick="add(${p.id})"><i class="fas fa-shopping-cart"></i></button>
+                <div class="product-footer">
+                    <span class="price">${p.price.toLocaleString()} ₴</span>
+                    <button class="add-btn" onclick="add(${p.id})"><i class="fas fa-cart-plus"></i></button>
                 </div>
             </div>
         </div>
@@ -156,19 +157,18 @@ function render() {
 }
 
 function renderCart() {
-    const list = document.getElementById("full-cart-list");
-    list.innerHTML = cart.length === 0 ? "<h3>Кошик порожній</h3>" : 
+    const list = document.getElementById("cart-list");
+    list.innerHTML = cart.length === 0 ? "<div class='empty-msg'>Кошик порожній</div>" : 
         cart.map((c, i) => `
             <div class="cart-row">
-                <img src="${c.img}" width="60">
-                <div class="info">
-                    <h5>${c.name}</h5>
-                    <p>${c.price} ₴</p>
-                </div>
-                <button onclick="remove(${i})"><i class="fas fa-times"></i></button>
+                <img src="${c.img}">
+                <div class="cart-info"><h5>${c.name}</h5><p>${c.price} ₴</p></div>
+                <button onclick="remove(${i})"><i class="fas fa-trash"></i></button>
             </div>
         `).join("");
-    document.getElementById("total-price").innerText = cart.reduce((s,x)=>s+x.price,0).toLocaleString();
+    const total = cart.reduce((s,x)=>s+x.price,0);
+    document.getElementById("total-price").innerText = total.toLocaleString();
+    document.getElementById("grand-total").innerText = total.toLocaleString();
 }
 
 function remove(i) {
